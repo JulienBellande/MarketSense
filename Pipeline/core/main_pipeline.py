@@ -6,41 +6,47 @@ from Pipeline.sentiment_data.PipeSentimentData import PipeSentimentData
 from Pipeline.wallet_data.PipeWalletData import PipeWalletData
 from Pipeline.storage.StorageData import StorageData
 
-web_url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
-rss_url = "https://www.ft.com/rss/home"
-wallet_path = "/Users/julienbellande/code/JulienBellande/MarketSense/Wallet.csv"
 
-tickers = {
-    "^IXIC": "Nasdaq100",
-    "^GSPC": "SP500",
-    "^DJI": "DowJones30",
-    "AAPL" : "Apple",
-    "TSLA" : "Tesla",
-    "GOOGL" : "Google",
-    "AMZN" : "Amazon",
-    "NVDA" : "Nvidia",
-    "META" : "Meta Platforms",
-    }
+class run_pipeline():
 
-storage = StorageData()
-pipemarketdata = PipeMarketData()
-pipenewsdata = PipeNewsData()
-pipesentdata = PipeSentimentData()
-pipewalletdata = PipeWalletData()
+    def __init__(self):
+        self.web_url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+        self.rss_url = "https://www.ft.com/rss/home"
+        self.wallet_path = "/Users/julienbellande/code/JulienBellande/MarketSense/Wallet.csv"
 
-list_news = pipenewsdata.extract(rss_url)
-news_data = pipenewsdata.transform(list_news)
-storage.store(news_data, table_name='News_Data')
+        self.tickers = {
+            "^IXIC": "Nasdaq100",
+            "^GSPC": "SP500",
+            "^DJI": "DowJones30",
+            "AAPL" : "Apple",
+            "TSLA" : "Tesla",
+            "GOOGL" : "Google",
+            "AMZN" : "Amazon",
+            "NVDA" : "Nvidia",
+            "META" : "Meta Platforms",
+            }
 
-sent_data = pipesentdata.extract(web_url)
-sent_data = pipesentdata.transform(sent_data)
-storage.store(sent_data, table_name='Sent_Data')
+        self.storage = StorageData()
+        self.pipemarketdata = PipeMarketData()
+        self.pipenewsdata = PipeNewsData()
+        self.pipesentdata = PipeSentimentData()
+        self.pipewalletdata = PipeWalletData()
 
-for ticker in tickers.keys():
-    market_data = pipemarketdata.extract(ticker)
-    market_data = pipemarketdata.transform(market_data)
-    storage.store(market_data, table_name=f'{tickers[ticker]}')
+    def run(self):
 
-wallet_data = pipewalletdata.extract(wallet_path)
-wallet_data = pipewalletdata.transform(wallet_data)
-storage.store(wallet_data, table_name='Wallet_data')
+        list_news = self.pipenewsdata.extract(self.rss_url)
+        news_data = self.pipenewsdata.transform(list_news)
+        self.storage.store(news_data, table_name='News_Data')
+
+        sent_data = self.pipesentdata.extract(self.web_url)
+        sent_data = self.pipesentdata.transform(sent_data)
+        self.storage.store(sent_data, table_name='Sent_Data')
+
+        for ticker in self.tickers.keys():
+            market_data = self.pipemarketdata.extract(ticker)
+            market_data = self.pipemarketdata.transform(market_data)
+            self.storage.store(market_data, table_name=f'{self.tickers[ticker]}')
+
+        wallet_data = self.pipewalletdata.extract(self.wallet_path)
+        wallet_data = self.pipewalletdata.transform(wallet_data)
+        self.storage.store(wallet_data, table_name='Wallet_data')

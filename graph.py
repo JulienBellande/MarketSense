@@ -3,30 +3,34 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 import yfinance as yf
-import talib
 import matplotlib.pyplot as plt
 import sqlite3
 import plotly.express as px
+from GruAgent import GruAgent
 
 
 class Graph():
 
     def __init__(self):
         self.conn = sqlite3.connect("Database/database.db")
+        self.agent = GruAgent()
 
-    def graph_stockmarket(self, ticker, predict):
+    def graph_stockmarket(self, ticker):
         df = pd.read_sql_query(f"SELECT * FROM {ticker}", self.conn)
+        x = self.agent.preprocessing(df['Close'])
+        x = self.agent.create_last_sequence(x)
+        predict = self.agent.predict(x)
+        last_date = pd.to_datetime(df["Datetime"].iloc[-1])
+        predicted_date = last_date + pd.Timedelta(days=1)
         df = df.dropna()
+
         fig = go.Figure()
-        fig.add_trace(go.Candlestick(
+
+        fig.add_trace(go.Scatter(
             x=df["Datetime"],
-            open=df["Open"],
-            high=df["High"],
-            low=df["Low"],
-            close=df["Close"],
-            name="Prix",
-            increasing_line_color="green",
-            decreasing_line_color="red"
+            y=df["Close"],
+            name="Price",
+            line=dict(color="blue", width=2)
         ))
 
         fig.add_trace(go.Scatter(
@@ -34,11 +38,8 @@ class Graph():
             y=df["SMA_50"],
             mode="lines",
             name="SMA 50",
-            line=dict(color="royalblue", width=2)
+            line=dict(color="red", width=2)
         ))
-
-        last_date = pd.to_datetime(df["Datetime"].iloc[-1])
-        predicted_date = last_date + pd.Timedelta(days=1)
 
         fig.add_trace(go.Scatter(
             x=[predicted_date],
@@ -58,28 +59,23 @@ class Graph():
             marker=dict(size=8, color="purple", symbol="circle"),
             showlegend=True
         ))
-        fig.update_xaxes(
-            type="date",
-            tickformat="%b\n%Y",
-            dtick="M1",
-            tickangle=0
-        )
 
         fig.update_layout(
             xaxis_rangeslider_visible=False,
             title=f"{ticker}",
             xaxis_title="Date",
-            yaxis_title="Prix",
+            yaxis_title="Price",
             hovermode="x unified",
             width=1500,
             height=500,
             showlegend=True
         )
-        return fig.show()
+        return fig
 
     def graph_sent(self):
-        df = pd.read_sql_query(f"SELECT * FROM Sent_Data", self.conn)
+        df = pd.read_sql_query("SELECT * FROM Sent_Data", self.conn)
         df["Datetime"] = pd.to_datetime(df["Datetime"])
+
         rating_colors = {
             "Extreme Fear": "#8B0000",
             "Fear": "#FF0000",
@@ -87,13 +83,22 @@ class Graph():
             "Greed": "#228B22",
             "Extreme Greed": "#006400"
         }
-        color = rating_colors.get(df.loc[0, "rating"], "gray")
+
+        sentiment = df.loc[0, "rating"]
+        score = df.loc[0, "score"]
+        color = rating_colors.get(sentiment, "gray")
+
+
         fig = go.Figure(go.Indicator(
-            mode="gauge+number+delta",
-            value=df.loc[0, "score"],
-            number={"suffix": "/100"},
-            delta={"reference": 50, "increasing": {"color": "green"}, "decreasing": {"color": "red"}},
-            title={"text": f"Sentiment : {df.loc[0, 'rating']}", "font": {"size": 18}},
+            mode="gauge+number",
+            value=score,
+            number={
+            "suffix": "/100",
+            "font": {
+                "size": 40,
+                "color": color
+                } },
+            title={"text": f"Sentiment : {sentiment}", "font": {"size": 14}},
             gauge={
                 "axis": {"range": [0, 100]},
                 "bar": {"color": color},
@@ -106,14 +111,19 @@ class Graph():
                 ]
             }
         ))
+
         fig.update_layout(
-            title="Sentiment of investors",
-            width=800,
+            title ="Investor sentiment",
+            width=600,
             height=400,
-            showlegend=True,
-            template="plotly_dark"
+            template="plotly_dark",
+            margin=dict(t=50, b=20)
         )
-        return fig.show()
+
+        return fig
+
+
+
 
     def graph_news(self):
         df = pd.read_sql_query(f"SELECT * FROM News_Data", self.conn)
@@ -135,7 +145,7 @@ class Graph():
         ))
         fig.update_layout(
             title="Wallet",
-            width=800,
+            width=600,
             height=400,
             xaxis_title="Return (%)",
             yaxis_title="Ticker",
@@ -146,4 +156,4 @@ class Graph():
             ),
             template="plotly_dark"
         )
-        return fig.show()
+        return fig

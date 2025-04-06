@@ -14,8 +14,7 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 
 ## 🗂️ **Architecture du projet**
 
-'''plaintext
-.
+```plaintext
 ├── Documentation.ipynb
 ├── GCP_key.json
 ├── Google Cloud console.html
@@ -59,7 +58,7 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 │   ├── GruAgent.cpython-310.pyc
 │   └── graph.cpython-310.pyc
 └── main.py
-'''
+```
 
 -----
 ## 🔄 **Pipelines**

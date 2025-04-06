@@ -14,7 +14,8 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 
 ## 🗂️ **Architecture du projet**
 
-'''
+'''plaintext
+.
 ├── Documentation.ipynb
 ├── GCP_key.json
 ├── Google Cloud console.html

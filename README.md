@@ -25,7 +25,9 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 ├── IA_research.ipynb
 ├── Model
 │   ├── GRU_Agent.keras
-│   └── GruAgent.py
+│   ├── GruAgent.py
+│   └── __pycache__
+│       └── GruAgent.cpython-310.pyc
 ├── Pipeline
 │   ├── core
 │   │   ├── __pycache__
@@ -56,6 +58,7 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 │   ├── GruAgent.cpython-310.pyc
 │   └── graph.cpython-310.pyc
 └── main.py
+
 
 -----
 ## 🔄 **Pipelines**

@@ -15,37 +15,49 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 ## 🗂️ **Architecture du projet**
 
 ```plaintext
-├── Database
-│   └── database.db (local pour tests)
-├── GRU_Agent.keras  # Modèle GRU pré-entraîné
-├── GruAgent.py  # Classe pour manipuler le modèle
-├── IA_research.ipynb  # Recherche et entraînement du modèle
+├── Documentation.ipynb
+├── GCP_key.json
+├── Google Cloud console.html
+├── Graph
+│   ├── __pycache__
+│   │   └── graph.cpython-310.pyc
+│   └── graph.py
+├── IA_research.ipynb
+├── Model
+│   ├── GRU_Agent.keras
+│   └── GruAgent.py
 ├── Pipeline
-│   ├── core
-│   │   ├── main_pipeline.py  # Logique principale des pipelines
-│   ├── market_data
-│   │   ├── PipeMarketData.py  # Pipeline pour données de marché
-│   ├── news_data
-│   │   ├── PipeNewsData.py  # Pipeline pour les données d'actualités
-│   ├── sentiment_data
-│   │   ├── PipeSentimentData.py  # Pipeline pour les données de sentiment
-│   ├── storage
-│   │   ├── StorageData.py  # Interactions avec GCP (BigQuery, GCS)
-│   └── wallet_data
-│       ├── PipeWalletData.py  # Pipeline pour les données du portefeuille
-├── README.md  # Documentation détaillée
-├── Wallet.csv  # Données du portefeuille utilisateur
-├── __pycache__  # Cache Python
-├── graph.py  # Visualisation des données
-├── main.py  # Point d'entrée du projet
-└── tests/
-    ├── test_pipeline.py  # Tests unitaires des pipelines
-    ├── test_model.py  # Tests du modèle GRU
-    └── test_storage.py  # Tests de l'intégration avec GCP
-```
+│   ├── core
+│   │   ├── __pycache__
+│   │   │   └── main_pipeline.cpython-310.pyc
+│   │   └── main_pipeline.py
+│   ├── market_data
+│   │   ├── PipeMarketData.py
+│   │   └── __pycache__
+│   │       └── PipeMarketData.cpython-310.pyc
+│   ├── news_data
+│   │   ├── PipeNewsData.py
+│   │   └── __pycache__
+│   │       └── PipeNewsData.cpython-310.pyc
+│   ├── sentiment_data
+│   │   ├── PipeSentimentData.py
+│   │   └── __pycache__
+│   │       └── PipeSentimentData.cpython-310.pyc
+│   ├── storage
+│   │   ├── StorageData.py
+│   │   └── __pycache__
+│   │       └── StorageData.cpython-310.pyc
+│   └── wallet_data
+│       ├── PipeWalletData.py
+│       └── __pycache__
+│           └── PipeWalletData.cpython-310.pyc
+├── README.md
+├── __pycache__
+│   ├── GruAgent.cpython-310.pyc
+│   └── graph.cpython-310.pyc
+└── main.py
 
----
-
+-----
 ## 🔄 **Pipelines**
 
 Les pipelines suivent les **bonnes pratiques d'entreprise**, assurant modularité, scalabilité et maintenance. Ils sont conçus pour l’extraction, la transformation et le stockage des données dans un environnement de production.

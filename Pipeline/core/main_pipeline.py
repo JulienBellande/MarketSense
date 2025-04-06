@@ -23,7 +23,7 @@ class run_pipeline():
             "GOOGL" : "Google",
             "AMZN" : "Amazon",
             "NVDA" : "Nvidia",
-            "META" : "Meta Platforms",
+            "META" : "Meta",
             }
 
         self.storage = StorageData()

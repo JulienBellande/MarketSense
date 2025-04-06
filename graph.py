@@ -123,8 +123,6 @@ class Graph():
         return fig
 
 
-
-
     def graph_news(self):
         df = pd.read_sql_query(f"SELECT * FROM News_Data", self.conn)
         df = df.sort_values('Datetime')

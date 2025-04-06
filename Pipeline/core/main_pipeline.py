@@ -7,7 +7,7 @@ from Pipeline.wallet_data.PipeWalletData import PipeWalletData
 from Pipeline.storage.StorageData import StorageData
 
 
-class run_pipeline():
+class Pipeline():
 
     def __init__(self):
         self.web_url = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
@@ -49,4 +49,4 @@ class run_pipeline():
 
         wallet_data = self.pipewalletdata.extract(self.wallet_path)
         wallet_data = self.pipewalletdata.transform(wallet_data)
-        self.storage.store(wallet_data, table_name='Wallet_data')
+        self.storage.store(wallet_data, table_name='Wallet_Data')

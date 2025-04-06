@@ -1,155 +1,135 @@
-# 📊 MarketSense
+# 📊 **MarketSense**
 
-**MarketSense** est un projet de simulation du rôle de **Data Engineer Analytics** avec une spécialisation en **IA appliquée à la finance**.
-L’objectif est de construire un **dashboard d’aide à la décision** pour des investisseurs **intraday** et **long terme**.
+**MarketSense** est mon projet qui simule le rôle de **Data Engineer** avec une spécialisation en **Intelligence Artificielle appliquée à la finance**. Son objectif est de développer un **dashboard d'aide à la décision** pour les investisseurs **intraday** et **long terme**.
 
 🧱 Le projet repose sur :
-- des pipelines ETL robustes,
-- le stockage de données en **SQL**,
-- un modèle de réseau neuronal **GRU** pour la prédiction des marchés,
-- et une application **Streamlit** pour la visualisation interactive.
+- Des **pipelines ETL** robustes et automatisés.
+- Le **stockage des données** dans **BigQuery** et **Cloud Storage (GCP)**.
+- L’utilisation d’un **modèle GRU** pour la prédiction des prix des marchés financiers.
+- Une **visualisation interactive** avec **Streamlit**.
 
-L’ensemble du code est orienté objet via des **classes Python**.
+Le code suit les principes de la **programmation orientée objet** avec des **classes Python** pour assurer la modularité et la maintenabilité.
 
 ---
 
-## 🗂️ Architecture du projet
+## 🗂️ **Architecture du projet**
 
+```plaintext
 ├── Database
-│   └── database.db
-├── GRU_Agent.keras
-├── GruAgent.py
-├── IA_research.ipynb
+│   └── database.db (local pour tests)
+├── GRU_Agent.keras  # Modèle GRU pré-entraîné
+├── GruAgent.py  # Classe pour manipuler le modèle
+├── IA_research.ipynb  # Recherche et entraînement du modèle
 ├── Pipeline
-│   ├── core
-│   │   ├── __pycache__
-│   │   │   └── main_pipeline.cpython-310.pyc
-│   │   └── main_pipeline.py
-│   ├── market_data
-│   │   ├── PipeMarketData.py
-│   │   └── __pycache__
-│   │       └── PipeMarketData.cpython-310.pyc
-│   ├── news_data
-│   │   ├── PipeNewsData.py
-│   │   └── __pycache__
-│   │       └── PipeNewsData.cpython-310.pyc
-│   ├── sentiment_data
-│   │   ├── PipeSentimentData.py
-│   │   └── __pycache__
-│   │       └── PipeSentimentData.cpython-310.pyc
-│   ├── storage
-│   │   ├── StorageData.py
-│   │   └── __pycache__
-│   │       └── StorageData.cpython-310.pyc
-│   └── wallet_data
-│       ├── PipeWalletData.py
-│       └── __pycache__
-│           └── PipeWalletData.cpython-310.pyc
-├── README.md
-├── Wallet.csv
-├── __pycache__
-│   ├── GruAgent.cpython-310.pyc
-│   └── graph.cpython-310.pyc
-├── graph.py
+│   ├── core
+│   │   ├── main_pipeline.py  # Logique principale des pipelines
+│   ├── market_data
+│   │   ├── PipeMarketData.py  # Pipeline pour données de marché
+│   ├── news_data
+│   │   ├── PipeNewsData.py  # Pipeline pour les données d'actualités
+│   ├── sentiment_data
+│   │   ├── PipeSentimentData.py  # Pipeline pour les données de sentiment
+│   ├── storage
+│   │   ├── StorageData.py  # Interactions avec GCP (BigQuery, GCS)
+│   └── wallet_data
+│       ├── PipeWalletData.py  # Pipeline pour les données du portefeuille
+├── README.md  # Documentation détaillée
+├── Wallet.csv  # Données du portefeuille utilisateur
+├── __pycache__  # Cache Python
+├── graph.py  # Visualisation des données
+├── main.py  # Point d'entrée du projet
+└── tests/
+    ├── test_pipeline.py  # Tests unitaires des pipelines
+    ├── test_model.py  # Tests du modèle GRU
+    └── test_storage.py  # Tests de l'intégration avec GCP
+```
 
 ---
 
-## 🔄 Pipelines
+## 🔄 **Pipelines**
 
-Les pipelines suivent les **bonnes pratiques d’entreprise** (modularité, scalabilité, maintenance).
+Les pipelines suivent les **bonnes pratiques d'entreprise**, assurant modularité, scalabilité et maintenance. Ils sont conçus pour l’extraction, la transformation et le stockage des données dans un environnement de production.
 
-- Extraction → Transformation → Stockage
-- Toutes les données sont **uniformisées** (horaires européens).
-- Les bases SQL sont **rafraîchies à chaque exécution** (dans ce prototype).
-  En production, elles seraient **alimentées en continu**.
-
----
-
-## 📈 Données des marchés financiers – `market_data`
-
-Source : **Yahoo Finance** via l’API `yfinance`.
-
-- Données horaires du marché américain
-- Prix : Open, High, Low, Close de l’heure précédente
-- **Features ajoutées :**
-  - `SMA_50` : Moyenne mobile 50 périodes
-  - `Volume_Spike` : Pic de volume anormal (> 2× écart-type)
-
-📌 *Les données temps réel nécessitent des APIs payantes.*
+- **Extraction → Transformation → Stockage**
+- Les données sont **uniformisées** (horaires européens).
+- Les bases **BigQuery** sont **rafraîchies régulièrement** pour garantir la mise à jour continue des données.
 
 ---
 
-## 🧠 Sentiment du marché – `sentiment_data`
+## 📈 **Données des marchés financiers – `market_data`**
 
-Source : **CNN Business Fear & Greed Index**
+- **Source** : **Yahoo Finance** via l'API `yfinance`.
+- Données horaires des marchés américains : Prix d’ouverture, de clôture, haut et bas de l’heure précédente.
+- **Features ajoutées** :
+  - `SMA_50` : Moyenne mobile à 50 périodes.
+  - `Volume_Spike` : Détection des pics de volume (> 2× écart-type).
 
-- Indicateur global du **sentiment des investisseurs**
-- Très utile pour détecter les phases de **panique ou d’euphorie**
+📌 *Note : Les données en temps réel nécessitent des APIs payantes.*
 
----
-
-## 📰 Données économiques – `news_data`
-
-Source : **flux RSS d’actualités économiques**
-
-- Récupération des 5 dernières news
-- Stockage et nettoyage via SQL
-- Visualisation intégrée dans le dashboard
+Les données sont extraites et stockées dans **BigQuery** pour une analyse à grande échelle.
 
 ---
 
-## 💼 Portefeuille utilisateur – `wallet_data`
+## 🧠 **Sentiment du marché – `sentiment_data`**
 
-Source : un fichier CSV (`Wallet.csv`) simulant les positions d’un investisseur.
-
-- Extraction des tickers et prix d’achat
-- Calcul du **prix moyen** et de la **performance (%)**
-- Suivi visuel de chaque position sur Streamlit
+- **Source** : **CNN Business Fear & Greed Index**.
+- Indicateur du **sentiment des investisseurs** : Utilisé pour détecter les phases de **panique** ou **d’euphorie** sur le marché.
 
 ---
 
-## 🤖 GRU Agent – `GruAgent.py`
+## 📰 **Données économiques – `news_data`**
 
-Le modèle GRU a été entraîné dans `IA_research.ipynb` puis exporté (`GRU_Agent.keras`) pour être utilisé dans l’application.
-
-- 🔁 Modèle RNN adapté aux séries temporelles
-- ✅ Plus léger et plus rapide que LSTM
-- 🎯 Excellente performance pour la prédiction temps réel
-
----
-
-## 📊 Visualisation – `graph.py` + Streamlit
-
-- Visualisation dynamique sur **Streamlit**
-- Les graphes sont gérés via une **classe dédiée** dans `graph.py` pour plus de lisibilité
-
-💡 En entreprise, le dashboard pourrait être migré vers **Power BI** ou **Tableau**.
+- **Source** : Flux RSS d’actualités économiques provenant de diverses sources fiables.
+- Extraction des **5 dernières nouvelles** pertinentes.
+- Nettoyage et stockage des données dans **BigQuery**.
+- Visualisation de l'impact des actualités économiques sur les marchés dans le **dashboard Streamlit**.
 
 ---
 
-## 🚀 Main – `main.py`
+## 💼 **Portefeuille utilisateur – `wallet_data`**
 
-C’est le point d’entrée du projet :
+- **Source** : Un fichier CSV (`Wallet.csv`) simulant un portefeuille d’investisseur.
+- Extraction des **tickers**, des **prix d’achat**, du **prix moyen** et de la **performance**.
+- Suivi visuel de chaque position dans **Streamlit**.
 
-- Exécute tous les **pipelines**
-- Met à jour automatiquement les données toutes les heures entre **13h30 et 21h30 (UTC+1)**
-- Lance l’application Streamlit
-
----
-
-## ✅ Objectifs pédagogiques
-
-- Structuration propre d’un projet Data & IA
-- Pratique avancée des **pipelines ETL**
-- Application concrète du **deep learning** en finance
-- Déploiement d’un **dashboard interactif**
+Les données sont extraites d'un **Bucket GCP** (Google Cloud Storage) pour être utilisées dans les calculs de performance du portefeuille.
 
 ---
 
-## 🛠️ À venir
+## 🤖 **GRU Agent – `GruAgent.py`**
 
-- Connexion en **temps réel** via WebSockets ou APIs premium
-- Déploiement **Cloud (GCP/AWS)** du dashboard Streamlit
-- Enrichissement du modèle (multi-actifs, NLP des news, etc.)
+Le modèle **GRU** a été entraîné dans le notebook `IA_research.ipynb`, puis exporté sous forme de modèle `.keras` pour être utilisé dans l'application.
+
+- 🔁 **Modèle RNN** adapté aux séries temporelles.
+- ✅ Plus léger et plus rapide que LSTM, idéal pour les prévisions en temps réel.
+- 🎯 Performance optimale pour la prédiction des prix sur la base des indicateurs techniques et des données de sentiment.
 
 ---
+
+## 📊 **Visualisation – `graph.py` + Streamlit**
+
+- **Visualisation dynamique** via **Streamlit**, permettant à l'utilisateur d'explorer les données et les prédictions de manière interactive.
+- Les graphiques sont gérés par une **classe dédiée** dans `graph.py` pour une séparation claire des préoccupations.
+
+💡 **Suggestion pour l’entreprise** : Le dashboard pourrait être migré vers des outils comme **Power BI** ou **Tableau** pour une visualisation plus poussée à grande échelle.
+
+---
+
+## 🚀 **Main – `main.py`**
+
+Le fichier principal **`main.py`** est le point d'entrée du projet. Il coordonne l'exécution des pipelines et la mise à jour des données.
+
+- Exécution automatique de tous les **pipelines** à intervalle régulier.
+- Les données sont mises à jour entre **13h30 et 21h30 UTC+1** chaque jour.
+- Lancement de l’application **Streamlit** pour la visualisation.
+
+Le projet peut être déployé dans **GCP** pour une exécution continue et scalable.
+
+---
+
+## ✅ **Objectifs pédagogiques**
+
+- Structuration et organisation propre d'un projet Data & IA.
+- Pratique avancée des **pipelines ETL** pour le traitement et le stockage des données.
+- Application de **deep learning** pour la prédiction de tendances financières.
+- Création d'un **dashboard interactif** avec **Streamlit** pour la visualisation en temps réel.

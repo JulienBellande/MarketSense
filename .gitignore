@@ -1,0 +1,9 @@
+# Ignorer la clé de service GCP
+GCP_key.json
+Google Cloud console.html
+.env
+__pycache__/
+*.pyc
+GRU_Agent.keras
+*.log
+*.tmp

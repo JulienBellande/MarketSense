@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-from Pipeline.core.main_pipeline import run_pipeline
-from graph import Graph
+from Pipeline.core.main_pipeline import Pipeline
+from Graph.graph import Graph
 import streamlit as st
 import streamlit.components.v1 as components
 from nbconvert import HTMLExporter
@@ -9,23 +9,30 @@ from datetime import datetime, time
 from streamlit_ace import st_ace
 from nbformat import read
 
-pipeline = run_pipeline()
+pipeline = Pipeline()
 graph = Graph()
 
 
 st.set_page_config(layout="wide")
+
+@st.cache_data(ttl=3600)
+def run_pipeline():
+    pipeline.run()
+    return "Pipeline exécuté"
+
+def is_valid_run_time():
+    now = datetime.now()
+    if 13 <= now.hour <= 21 and now.minute >= 30:
+        return True
+    return False
+
+if is_valid_run_time():
+    run_pipeline()
+
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")
 
-current_time = datetime.now().time()
-if time(13, 30) <= current_time <= time(22, 0):
-    if 'last_run' not in st.session_state or (current_time.hour != st.session_state.last_run.hour):
-        with st.spinner("Mise à jour des données en cours..."):
-            pipeline.run()
-            st.session_state.last_run = current_time
-            st.experimental_rerun()
-
-page = st.selectbox("Choisir une page", ["MarketSense", "IA_research"])
+page = st.selectbox("Choisir une page", ["MarketSense", "MarketSense: IA_research", "MarketSense: Documentation"])
 
 if page == "MarketSense":
     col1, col2 = st.columns([9, 2])
@@ -49,7 +56,12 @@ if page == "MarketSense":
     with col2:
         st.plotly_chart(graph.graph_sent(), use_container_width=True)
 
-elif page == "IA_research":
+elif page == "MarketSense: IA_research":
     notebook = read(open("IA_research.ipynb", encoding='utf-8'), as_version=4)
     st.components.v1.html(HTMLExporter().from_notebook_node(notebook)[0],
-                         height=15000, scrolling=True)
+                         height=5000, scrolling=True)
+
+elif page == "MarketSense: Documentation":
+    notebook = read(open("Documentation.ipynb", encoding='utf-8'), as_version=4)
+    st.components.v1.html(HTMLExporter().from_notebook_node(notebook)[0],
+                         height=5000, scrolling=True)

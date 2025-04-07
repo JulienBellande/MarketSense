@@ -7,7 +7,6 @@ import streamlit as st
 import streamlit.components.v1 as components
 from nbconvert import HTMLExporter
 from datetime import datetime
-import time as
 from streamlit_ace import st_ace
 from nbformat import read
 

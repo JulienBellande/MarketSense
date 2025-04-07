@@ -14,21 +14,10 @@ pipeline = Pipeline()
 graph = Graph()
 
 
+pipeline.run()
+
 st.set_page_config(layout="wide")
 
-@st.cache_data(ttl=3600)
-def run_pipeline():
-    pipeline.run()
-    return "Pipeline exécuté"
-
-def is_valid_run_time():
-    now = datetime.now()
-    if 13 <= now.hour <= 21 and now.minute >= 30:
-        return True
-    return False
-
-if is_valid_run_time():
-    run_pipeline()
 
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")

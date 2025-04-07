@@ -1,6 +1,6 @@
 # 📊 **MarketSense**
 
-**MarketSense** est mon projet qui simule le rôle de **Data Engineer** avec une spécialisation en **Intelligence Artificielle appliquée à la finance**. Son objectif est de développer un **dashboard d'aide à la décision** pour les investisseurs **intraday** et **long terme**.
+**MarketSense** est mon projet qui simule le rôle d'un **Data Engineer** avec une spécialisation en **Intelligence Artificielle appliquée à la finance**. L'objectif est de développer un **dashboard d'aide à la décision** pour les investisseurs **intraday** et **long terme**.
 
 🧱 Le projet repose sur :
 - Des **pipelines ETL** robustes et automatisés.
@@ -81,7 +81,7 @@ Les pipelines suivent les **bonnes pratiques d'entreprise**, assurant modularit�
 
 📌 *Note : Les données en temps réel nécessitent des APIs payantes.*
 
-Les données sont extraites et stockées dans **BigQuery** pour une analyse à grande échelle.
+Les données sont stockées dans **BigQuery** pour une analyse à grande échelle.
 
 ---
 
@@ -90,14 +90,16 @@ Les données sont extraites et stockées dans **BigQuery** pour une analyse à g
 - **Source** : **CNN Business Fear & Greed Index**.
 - Indicateur du **sentiment des investisseurs** : Utilisé pour détecter les phases de **panique** ou **d’euphorie** sur le marché.
 
+Les données sont stockées dans **BigQuery**.
+
 ---
 
 ## 📰 **Données économiques – `news_data`**
 
 - **Source** : Flux RSS d’actualités économiques provenant du Financial Time.
 - Extraction des **5 dernières nouvelles** pertinentes.
-- Nettoyage et stockage des données dans **BigQuery**.
-- Visualisation de l'impact des actualités économiques sur les marchés dans le **dashboard Streamlit**.
+
+Les données sont stockées dans **BigQuery**.
 
 ---
 
@@ -107,7 +109,7 @@ Les données sont extraites et stockées dans **BigQuery** pour une analyse à g
 - Extraction des **tickers**, des **prix d’achat**, du **prix moyen** et de la **performance**.
 - Suivi visuel de chaque position dans **Streamlit**.
 
-Les données sont extraites d'un **Bucket GCP** (Google Cloud Storage) pour être utilisées dans les calculs de performance du portefeuille.
+Les données sont extraites d'un **Bucket GCP** (Google Cloud Storage), traitées et stockées dans **BigQuery** pour être utilisées dans les calculs de performance du portefeuille.
 
 ---
 

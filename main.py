@@ -7,34 +7,20 @@ import streamlit as st
 import streamlit.components.v1 as components
 from nbconvert import HTMLExporter
 from datetime import datetime
-import time as tm
+import time as
 from streamlit_ace import st_ace
 from nbformat import read
 
 st.set_page_config(layout="wide")
 
-@st.cache_resource(ttl=3600)
-def load_pipeline():
-    return Pipeline()
-
-@st.cache_data(ttl=600)
-def run_pipeline(_pipeline):
-    return _pipeline.run()
-
 graph = Graph()
-pipeline = load_pipeline()
-
-with st.spinner('Chargement des données...'):
-    progress_bar = st.progress(0)
-    for i in range(100):
-        tm.sleep(0.02)
-        progress_bar.progress(i + 1)
-    pipeline_data = run_pipeline(pipeline)
-    progress_bar.empty()
-
+pipeline = Pipeline()
 
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")
+
+
+pipeline.run()
 
 page = st.selectbox("Choisir une page", ["MarketSense", "MarketSense: IA_research", "MarketSense: Documentation"])
 

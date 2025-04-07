@@ -15,7 +15,7 @@ import streamlit as st
 class PipeWalletData():
 
     def __init__(self):
-        creds_dict = dict(st.secrets["gcp_credentials"])
+        creds_dict = st.secrets["gcp_credentials"]
         self.credentials = service_account.Credentials.from_service_account_info(creds_dict)
         self.project_id = creds_dict["project_id"]
         self.client = bigquery.Client(

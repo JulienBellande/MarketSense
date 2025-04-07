@@ -1,24 +1,20 @@
-import seaborn as sns
-import plotly.graph_objects as go
-import numpy as np
 import pandas as pd
-import yfinance as yf
-import matplotlib.pyplot as plt
-import plotly.express as px
-from Model.GruAgent import GruAgent
+import plotly.graph_objects as go
 from google.cloud import bigquery
-from pandas_gbq import to_gbq
-from dotenv import load_dotenv
-import os
-
+from google.oauth2 import service_account
+from Model.GruAgent import GruAgent
+import streamlit as st
+from datetime import
 
 class Graph():
-
     def __init__(self):
-        load_dotenv()
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GCP_CREDENTIALS_PATH")
-        self.project_id = os.getenv("GCP_PROJECT_ID")
-        self.client = bigquery.Client(project=self.project_id)
+        creds_dict = st.secrets["gcp_credentials"]
+        self.credentials = service_account.Credentials.from_service_account_info(creds_dict)
+        self.project_id = creds_dict["project_id"]
+        self.client = bigquery.Client(
+            credentials=self.credentials,
+            project=self.project_id
+        )
         self.agent = GruAgent()
 
     def graph_stockmarket(self, ticker):
@@ -55,7 +51,8 @@ class Graph():
             y=[predict],
             mode="markers",
             name="Prédiction",
-            marker=dict(symbol="star", size=10, color="yellow", line=dict(width=2, color="black")),
+            marker=dict(symbol="star", size=10, color="yellow",
+                       line=dict(width=2, color="black")),
             showlegend=True
         ))
 
@@ -99,16 +96,13 @@ class Graph():
         score = df.loc[0, "score"]
         color = rating_colors.get(sentiment, "gray")
 
-
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=score,
             number={
-            "suffix": "/100",
-            "font": {
-                "size": 40,
-                "color": color
-                } },
+                "suffix": "/100",
+                "font": {"size": 40, "color": color}
+            },
             title={"text": f"Sentiment : {sentiment}", "font": {"size": 14}},
             gauge={
                 "axis": {"range": [0, 100]},
@@ -123,7 +117,7 @@ class Graph():
             }
         ))
         fig.update_layout(
-            title ="Investor sentiment",
+            title="Investor sentiment",
             width=600,
             height=400,
             template="plotly_dark",
@@ -136,14 +130,14 @@ class Graph():
         FROM `{self.project_id}.Database.News_Data`
         ORDER BY Datetime DESC"""
         df = self.client.query(query).to_dataframe()
-        news = df.iloc[:5]
-        return news
+        return df.iloc[:5]
 
     def graph_wallet(self):
         query = f"SELECT * FROM `{self.project_id}.Database.Wallet_Data`"
         df = self.client.query(query).to_dataframe()
         df = df[['Ticker', 'Return']]
         colors = ["red" if x < 0 else "green" for x in df["Return"]]
+
         fig = go.Figure(go.Bar(
             x=df["Return"],
             y=df["Ticker"],
@@ -152,6 +146,7 @@ class Graph():
             textposition="outside",
             orientation="h"
         ))
+
         fig.update_layout(
             title="Wallet",
             width=600,
@@ -159,7 +154,7 @@ class Graph():
             xaxis_title="Return (%)",
             yaxis_title="Ticker",
             xaxis=dict(
-                range=[df["Return"].min() * 1.2, df["Return"].max()* 1.2],
+                range=[df["Return"].min() * 1.2, df["Return"].max() * 1.2],
                 zeroline=True,
                 zerolinecolor="gray",
             ),

@@ -16,48 +16,48 @@ Le code suit les principes de la **programmation orientée objet** avec des **cl
 
 ```plaintext
 ├── Documentation.ipynb
-├── GCP_key.json
-├── Google Cloud console.html
 ├── Graph
-│   ├── __pycache__
-│   │   └── graph.cpython-310.pyc
-│   └── graph.py
+│   ├── __pycache__
+│   │   └── graph.cpython-310.pyc
+│   └── graph.py
 ├── IA_research.ipynb
 ├── Model
-│   ├── GRU_Agent.keras
-│   ├── GruAgent.py
-│   └── __pycache__
-│       └── GruAgent.cpython-310.pyc
+│   ├── GRU_Agent.keras
+│   ├── GruAgent.py
+│   └── __pycache__
+│       └── GruAgent.cpython-310.pyc
 ├── Pipeline
-│   ├── core
-│   │   ├── __pycache__
-│   │   │   └── main_pipeline.cpython-310.pyc
-│   │   └── main_pipeline.py
-│   ├── market_data
-│   │   ├── PipeMarketData.py
-│   │   └── __pycache__
-│   │       └── PipeMarketData.cpython-310.pyc
-│   ├── news_data
-│   │   ├── PipeNewsData.py
-│   │   └── __pycache__
-│   │       └── PipeNewsData.cpython-310.pyc
-│   ├── sentiment_data
-│   │   ├── PipeSentimentData.py
-│   │   └── __pycache__
-│   │       └── PipeSentimentData.cpython-310.pyc
-│   ├── storage
-│   │   ├── StorageData.py
-│   │   └── __pycache__
-│   │       └── StorageData.cpython-310.pyc
-│   └── wallet_data
-│       ├── PipeWalletData.py
-│       └── __pycache__
-│           └── PipeWalletData.cpython-310.pyc
+│   ├── core
+│   │   ├── __pycache__
+│   │   │   └── main_pipeline.cpython-310.pyc
+│   │   └── main_pipeline.py
+│   ├── market_data
+│   │   ├── PipeMarketData.py
+│   │   └── __pycache__
+│   │       └── PipeMarketData.cpython-310.pyc
+│   ├── news_data
+│   │   ├── PipeNewsData.py
+│   │   └── __pycache__
+│   │       └── PipeNewsData.cpython-310.pyc
+│   ├── sentiment_data
+│   │   ├── PipeSentimentData.py
+│   │   └── __pycache__
+│   │       └── PipeSentimentData.cpython-310.pyc
+│   ├── storage
+│   │   ├── StorageData.py
+│   │   └── __pycache__
+│   │       └── StorageData.cpython-310.pyc
+│   └── wallet_data
+│       ├── PipeWalletData.py
+│       └── __pycache__
+│           └── PipeWalletData.cpython-310.pyc
 ├── README.md
 ├── __pycache__
-│   ├── GruAgent.cpython-310.pyc
-│   └── graph.cpython-310.pyc
-└── main.py
+│   ├── GruAgent.cpython-310.pyc
+│   └── graph.cpython-310.pyc
+├── main.py
+├── make_pipeline.py
+└── requirements.txt
 ```
 
 -----
@@ -94,7 +94,7 @@ Les données sont extraites et stockées dans **BigQuery** pour une analyse à g
 
 ## 📰 **Données économiques – `news_data`**
 
-- **Source** : Flux RSS d’actualités économiques provenant de diverses sources fiables.
+- **Source** : Flux RSS d’actualités économiques provenant du Financial Time.
 - Extraction des **5 dernières nouvelles** pertinentes.
 - Nettoyage et stockage des données dans **BigQuery**.
 - Visualisation de l'impact des actualités économiques sur les marchés dans le **dashboard Streamlit**.
@@ -132,11 +132,10 @@ Le modèle **GRU** a été entraîné dans le notebook `IA_research.ipynb`, puis
 
 ## 🚀 **Main – `main.py`**
 
-Le fichier principal **`main.py`** est le point d'entrée du projet. Il coordonne l'exécution des pipelines et la mise à jour des données.
+Le fichier principal **`main.py`** est le point d'entrée du projet.
 
-- Exécution automatique de tous les **pipelines** à intervalle régulier.
-- Les données sont mises à jour entre **13h30 et 21h30 UTC+1** chaque jour.
 - Lancement de l’application **Streamlit** pour la visualisation.
+- Extraction des données nettoyées depuis **BigQuery**
 
 Le projet peut être déployé dans **GCP** pour une exécution continue et scalable.
 

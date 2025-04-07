@@ -15,7 +15,7 @@ st.set_page_config(layout="wide")
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")
 
-page = st.selectbox("Choisir une page", ["MarketSense", "MarketSense: IA_research", "MarketSense: Documentation"])
+page = st.selectbox("Page", ["MarketSense", "MarketSense: IA_research", "MarketSense: Documentation"])
 
 if page == "MarketSense":
     col1, col2 = st.columns([9, 2])
@@ -42,7 +42,7 @@ if page == "MarketSense":
 elif page == "MarketSense: IA_research":
     notebook = read(open("IA_research.ipynb", encoding='utf-8'), as_version=4)
     st.components.v1.html(HTMLExporter().from_notebook_node(notebook)[0],
-                         height=5000, scrolling=True)
+                         height=8500, scrolling=True)
 
 elif page == "MarketSense: Documentation":
     notebook = read(open("Documentation.ipynb", encoding='utf-8'), as_version=4)

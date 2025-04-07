@@ -10,8 +10,7 @@ import streamlit as st
 class StorageData():
 
     def __init__(self):
-        creds_str = st.secrets["gcp_credentials"]["credential_json"]
-        creds_dict = json.loads(creds_str)
+        creds_dict = st.secrets["gcp_credentials"]
         self.credentials = service_account.Credentials.from_service_account_info(creds_dict)
         self.project_id = creds_dict["project_id"]
         self.client = bigquery.Client(

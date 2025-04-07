@@ -9,10 +9,8 @@ __pycache__/
 
 *.pyc
 
-<<<<<<< HEAD
 GRU_Agent.keras
-=======
->>>>>>> 0b5f24e (oui)
+
 
 *.log
 

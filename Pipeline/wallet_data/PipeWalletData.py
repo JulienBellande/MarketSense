@@ -6,14 +6,18 @@ import os
 from dotenv import load_dotenv
 from google.cloud import storage
 from io import StringIO
+import streamlit as st
 
 class PipeWalletData():
 
     def __init__(self):
-
         load_dotenv()
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GCP_CREDENTIALS_PATH")
-        self.project_id = os.getenv("GCP_PROJECT_ID")
+        creds_json = st.secrets["gcp_credentials"]["credential_json"]
+        _, self.temp_cred_path = tempfile.mkstemp(suffix=".json")
+        with open(self.temp_cred_path, "w") as f:
+            json.dump(json.loads(creds_json), f)
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = self.temp_cred_path
+        self.project_id = json.loads(creds_json)["project_id"]
         self.client = bigquery.Client(project=self.project_id)
         self.storage_client = storage.Client()
         self.bucket_name = 'walletbucket'

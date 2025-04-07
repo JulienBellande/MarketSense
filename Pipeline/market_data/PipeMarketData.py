@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import yfinance as yf
-import talib
+from ta.trend import SMAIndicator
 import sqlite3
 import pytz
 from datetime import datetime
@@ -14,7 +14,7 @@ class PipeMarketData():
 
     def transform(self, market_data):
         market_data = market_data.droplevel(level=1, axis=1)
-        market_data['SMA_50'] = talib.SMA(market_data['Close'], timeperiod=50)
+        market_data['SMA_50'] = SMAIndicator(close=market_data['Close'], window=50).sma_indicator()
         market_data['Volume_Spike'] = (
             market_data['Volume'] / market_data['Close'].pct_change().std()
             ).rolling(90).apply(lambda x: x.iloc[-1] > 2 * x.mean()

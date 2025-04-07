@@ -24,7 +24,7 @@ if page == "MarketSense":
                   "Google", "Amazon", "Nvidia", "Meta"]
         ticker = st.selectbox("Choisissez un Ticker", tickers)
         st.plotly_chart(graph.graph_stockmarket(ticker), use_container_width=True)
-        st.caption("💡 Astuce : Cliquez sur les éléments de la légende pour filtrer.")
+        st.info("💡 Astuce : Cliquez sur les éléments de la légende pour filtrer.")
     with col2:
         st.subheader("📰 Dernières actualités")
         news_df = graph.graph_news()

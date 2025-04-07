@@ -10,14 +10,24 @@ from datetime import datetime, time
 from streamlit_ace import st_ace
 from nbformat import read
 
-pipeline = Pipeline()
 graph = Graph()
 
 
-pipeline.run()
-
 st.set_page_config(layout="wide")
 
+@st.cache_data(ttl=3600)
+def cached_pipeline_run():
+    pipeline = Pipeline()
+    pipeline.run()
+    return "Pipeline exécuté"
+
+def is_valid_run_time():
+    now = datetime.now()
+    return 13 <= now.hour <= 21
+
+if is_valid_run_time():
+    result = cached_pipeline_run()
+    st.toast(result, icon="⚙️")
 
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")

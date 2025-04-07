@@ -9,8 +9,8 @@ plotly==6.0.1
 protobuf==6.30.2
 python-dotenv==1.1.0
 pytz
-Requests==2.32.3
-scikit_learn==1.6.1
+requests==2.32.3
+scikit-learn==1.6.1
 seaborn==0.13.2
 streamlit==1.44.1
 streamlit_ace==0.1.1

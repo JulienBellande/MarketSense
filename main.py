@@ -10,16 +10,15 @@ from datetime import datetime
 from streamlit_ace import st_ace
 from nbformat import read
 
-st.set_page_config(layout="wide")
-
 graph = Graph()
 pipeline = Pipeline()
 
+pipeline.run()
+
+st.set_page_config(layout="wide")
+
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")
-
-
-pipeline.run()
 
 page = st.selectbox("Choisir une page", ["MarketSense", "MarketSense: IA_research", "MarketSense: Documentation"])
 

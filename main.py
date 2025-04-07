@@ -13,8 +13,6 @@ from nbformat import read
 graph = Graph()
 pipeline = Pipeline()
 
-pipeline.run()
-
 st.set_page_config(layout="wide")
 
 st.title("MarketSense")

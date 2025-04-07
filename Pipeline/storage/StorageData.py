@@ -10,7 +10,7 @@ import streamlit as st
 class StorageData():
 
     def __init__(self):
-        creds_dict = st.secrets["gcp_credentials"]
+        creds_dict = dict(st.secrets["gcp_credentials"])
         creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n") if "\\n" in creds_dict["private_key"] else creds_dict["private_key"]
         self.credentials = service_account.Credentials.from_service_account_info(creds_dict)
         self.project_id = creds_dict["project_id"]

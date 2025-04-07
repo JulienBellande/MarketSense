@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from Pipeline.core.main_pipeline import Pipeline
 from Graph.graph import Graph
 import yfinance as yf
 import streamlit as st
@@ -11,10 +10,8 @@ from streamlit_ace import st_ace
 from nbformat import read
 
 graph = Graph()
-pipeline = Pipeline()
 
 st.set_page_config(layout="wide")
-
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")
 

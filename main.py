@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from Pipeline.core.main_pipeline import Pipeline
 from Graph.graph import Graph
+import yfinance as yf
 import streamlit as st
 import streamlit.components.v1 as components
 from nbconvert import HTMLExporter

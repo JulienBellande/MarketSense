@@ -6,7 +6,8 @@ import yfinance as yf
 import streamlit as st
 import streamlit.components.v1 as components
 from nbconvert import HTMLExporter
-from datetime import datetime, time
+from datetime import datetime
+import time as tm
 from streamlit_ace import st_ace
 from nbformat import read
 
@@ -26,7 +27,7 @@ pipeline = load_pipeline()
 with st.spinner('Chargement des données...'):
     progress_bar = st.progress(0)
     for i in range(100):
-        time.sleep(0.02)
+        tm.sleep(0.02)
         progress_bar.progress(i + 1)
     pipeline_data = run_pipeline(pipeline)
     progress_bar.empty()

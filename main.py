@@ -12,11 +12,24 @@ from nbformat import read
 
 st.set_page_config(layout="wide")
 
+@st.cache_resource(ttl=3600)
+def load_pipeline():
+    return Pipeline()
 
+@st.cache_data(ttl=600)
+def run_pipeline(_pipeline):
+    return _pipeline.run()
 
 graph = Graph()
-pipeline = Pipeline()
-pipeline.run()
+pipeline = load_pipeline()
+
+with st.spinner('Chargement des données...'):
+    progress_bar = st.progress(0)
+    for i in range(100):
+        time.sleep(0.02)
+        progress_bar.progress(i + 1)
+    pipeline_data = run_pipeline(pipeline)
+    progress_bar.empty()
 
 
 st.title("MarketSense")

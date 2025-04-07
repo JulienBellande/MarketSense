@@ -2,13 +2,13 @@ feedparser==6.0.11
 matplotlib==3.10.1
 nbconvert==7.16.6
 nbformat==5.10.4
-numpy==2.2.4
+numpy==1.26.0
 pandas==2.2.3
 pandas_gbq==0.28.0
 plotly==6.0.1
 protobuf==3.20.3
 python-dotenv==1.1.0
-pytz==2024.2
+pytz==2025.1
 requests==2.32.3
 scikit-learn==1.6.1
 seaborn==0.13.2

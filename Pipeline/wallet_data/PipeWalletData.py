@@ -9,15 +9,12 @@ from google.auth import credentials
 from google.oauth2 import service_account
 from io import StringIO
 import json
-import tempfile
 import streamlit as st
 
 class PipeWalletData():
 
     def __init__(self):
-        self.credentials = service_account.Credentials.from_service_account_info(
-    json.loads(os.getenv('GCP_CREDS'))
-)
+        self.credentials = service_account.Credentials.from_service_account_file("gcp_key.json")
         self.project_id = self.credentials.project_id
         self.client = bigquery.Client(
             credentials=self.credentials,

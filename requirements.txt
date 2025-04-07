@@ -6,7 +6,7 @@ numpy==2.2.4
 pandas==2.2.3
 pandas_gbq==0.28.0
 plotly==6.0.1
-protobuf==6.30.2
+protobuf==3.20.3
 python-dotenv==1.1.0
 pytz==2024.2
 requests==2.32.3

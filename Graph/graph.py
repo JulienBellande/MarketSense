@@ -4,7 +4,8 @@ from google.cloud import bigquery
 from google.oauth2 import service_account
 from Model.GruAgent import GruAgent
 import streamlit as st
-from datetime import
+from datetime import datetime
+
 
 class Graph():
     def __init__(self):

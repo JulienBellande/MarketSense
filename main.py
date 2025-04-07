@@ -10,12 +10,14 @@ from datetime import datetime, time
 from streamlit_ace import st_ace
 from nbformat import read
 
-graph = Graph()
+st.set_page_config(layout="wide")
 
+
+
+graph = Graph()
 pipeline = Pipeline()
 pipeline.run()
 
-st.set_page_config(layout="wide")
 
 st.title("MarketSense")
 st.write("Voir le code sur GitHub : https://github.com/JulienBellande/MarketSense")

@@ -12,8 +12,9 @@ class PipeNewsData():
         feed = feedparser.parse(rss_url)
         if len(feed.entries) == 0:
             return "Pas de news aujourd'hui"
-        else:
-            return [[entry.title, entry.summary, entry.published] for entry in feed.entries]
+        else :
+            return [[getattr(entry, 'title', ''), getattr(entry, 'summary', ''),  getattr(entry, 'published', '')] for entry in feed.entries]
+
 
     def transform(self, data):
         news_data = pd.DataFrame(data, columns=['Titre', 'Résumé', 'Date'])
